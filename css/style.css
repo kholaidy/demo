@@ -1,0 +1,559 @@
+/*------------------------------------------------------------------
+[File: style.css]
+[Version: 2.0]
+[Author: Gemini AI]
+[Description: A complete rewrite for a responsive, mobile-first policy portal.]
+-------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------
+[Table of Contents]
+1.  Variables & Global Styles
+2.  Layout (Header, Main, Sidebar, Footer)
+3.  Header & Stats
+4.  Sidebar & Tree Navigation Structure
+    4.1. Level 1: Domain
+    4.2. Level 2: Manual
+    4.3. Level 3: Policy
+5.  Main Content Area
+6.  Responsive Design (Media Queries)
+    6.1. Tablet View (min-width: 768px)
+    6.2. Desktop View (min-width: 1024px)
+7.  Utility & Helper Classes
+8.  Print Styles
+-------------------------------------------------------------------*/
+
+/*==================================================================
+1. Variables & Global Styles
+==================================================================*/
+:root {
+    --primary-color: #1e3a8a; /* أزرق داكن */
+    --primary-light: #3b82f6; /* أزرق أساسي */
+    --accent-color: #16a34a; /* أخضر */
+    --text-dark: #1e293b;
+    --text-medium: #475569;
+    --text-light: #64748b;
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+    --border-color: #e2e8f0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --border-radius: 8px;
+
+    /* Font Awesome Icons */
+    --fa-folder-icon: "\f07b";
+    --fa-book-icon: "\f02d";
+    --fa-file-icon: "\f15c";
+    --fa-chevron-icon: "◀";
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    direction: rtl;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/*==================================================================
+2. Layout (Header, Main, Sidebar, Footer)
+==================================================================*/
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+#sidebar {
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow);
+    overflow-y: auto;
+    padding: 16px;
+    /* Mobile styles are default */
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 380px;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+#sidebar.open {
+    transform: translateX(0);
+}
+
+#content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    background-color: var(--bg-white);
+    border-top: 1px solid var(--border-color);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+#sidebar.open + .overlay {
+    display: block;
+}
+
+
+/*==================================================================
+3. Header & Stats
+==================================================================*/
+.header {
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.header h1 {
+    color: var(--text-dark);
+    font-size: 1.75rem;
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: var(--text-medium);
+    font-size: 1rem;
+    margin-bottom: 16px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile default */
+    gap: 16px;
+}
+
+.stat-box {
+    padding: 16px;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.stat-box .stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.stat-box .stat-title {
+    font-size: 0.875rem;
+    color: var(--text-medium);
+    margin-top: 4px;
+}
+
+/* Stat Colors */
+.stat-box.domains { background-color: #eff6ff; }
+.stat-box.domains .stat-number { color: #2563eb; }
+.stat-box.manuals { background-color: #f0fdf4; }
+.stat-box.manuals .stat-number { color: #16a34a; }
+.stat-box.policies { background-color: #f5f3ff; }
+.stat-box.policies .stat-number { color: #7c3aed; }
+
+
+/*==================================================================
+4. Sidebar & Tree Navigation Structure
+==================================================================*/
+.tree-container {
+    background-color: var(--bg-white);
+}
+
+.tree-container h2 {
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Base item styling */
+.domain-item, .manual-item {
+    margin-bottom: 8px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.domain-header, .manual-header, .policy-item {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.domain-header:hover, .manual-header:hover, .policy-item:hover {
+    background-color: #f3f4f6;
+}
+
+.icon {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Expanded state for icons */
+.expanded > .domain-title > .icon,
+.expanded > .manual-title > .icon {
+    transform: rotate(-90deg);
+}
+
+
+/* 4.1. Level 1: Domain */
+.domain-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #fafafa;
+}
+
+.domain-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.domain-name strong {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+}
+
+.domain-name span {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+}
+
+.count-badge {
+    color: var(--bg-white);
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-weight: 500;
+}
+
+.domain-header .count-badge { background-color: var(--primary-light); }
+
+/* 4.2. Level 2: Manual */
+.manuals-container {
+    padding: 0 8px 8px 8px;
+    background-color: var(--bg-white);
+}
+
+.manual-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: #f0fdf4; /* Light green */
+}
+
+.manual-header:hover {
+    background-color: #dcfce7;
+}
+.manual-header.active {
+    background-color: #dcfce7;
+    border-right: 4px solid var(--accent-color);
+}
+
+
+.manual-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 16px; /* Indent */
+}
+
+.manual-name strong {
+    font-size: 1rem;
+    color: var(--text-dark);
+}
+
+.manual-name span {
+    font-size: 0.8rem;
+    color: var(--text-medium);
+}
+
+.manual-header .count-badge { background-color: var(--accent-color); }
+
+/* 4.3. Level 3: Policy */
+.policies-container {
+    padding: 8px;
+    background-color: var(--bg-light);
+    border-top: 1px solid var(--border-color);
+}
+
+.policy-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-right: 32px; /* Further indent */
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 4px;
+}
+.policy-item.active {
+    border-left: 4px solid var(--accent-color);
+    background-color: #f0fdf4;
+}
+
+.policy-item .icon {
+    font-size: 1rem;
+    color: var(--text-light);
+}
+
+.policy-name strong {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+.policy-name span {
+    font-size: 0.75rem;
+    color: var(--text-medium);
+}
+
+/*==================================================================
+5. Main Content Area
+==================================================================*/
+#content-container {
+    background-color: var(--bg-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+}
+
+.policy-title {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    font-size: 1.7rem;
+}
+
+.policy-section {
+    margin-bottom: 32px;
+    scroll-margin-top: 80px; /* Offset for sticky header if any */
+}
+
+.policy-section-title {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    border-right: 4px solid var(--accent-color);
+    padding-right: 12px;
+    margin-bottom: 16px;
+}
+
+.policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+}
+
+.policy-table th,
+.policy-table td {
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    text-align: right;
+}
+
+.policy-table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+
+.policy-table tr:nth-child(even) {
+    background-color: #f3f4f6;
+}
+
+/* AI Search Input in Content */
+.ai-search-wrapper {
+  position: relative;
+}
+
+.ai-search-input {
+  width: 100%;
+  padding: 12px 16px;
+  padding-left: 50px !important; /* Space for button */
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+.ai-search-btn {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: var(--text-dark);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+.ai-search-btn:hover { background: #374151; }
+.ai-search-btn svg { fill: none; stroke: white; stroke-width: 2; }
+
+
+/*==================================================================
+6. Responsive Design (Media Queries)
+==================================================================*/
+
+/* 6.1. Tablet View (min-width: 768px) */
+@media (min-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    #sidebar {
+        position: sticky;
+        transform: translateX(0);
+        display: block !important; /* Override inline styles */
+        box-shadow: none;
+        border-left: 1px solid var(--border-color);
+    }
+
+    #mobile-menu-btn {
+        display: none;
+    }
+
+    .overlay {
+        display: none !important;
+    }
+
+    #content-container {
+        padding: 32px;
+    }
+}
+
+/* 6.2. Desktop View (min-width: 1024px) */
+@media (min-width: 1024px) {
+    #content {
+        padding: 32px;
+    }
+
+    .policy-title {
+        font-size: 2rem;
+    }
+}
+
+
+/*==================================================================
+7. Utility & Helper Classes
+==================================================================*/
+.hidden {
+    display: none !important;
+}
+
+/* الخطوة 1: أضف هذا الكود الجديد */
+.policy-section {
+  /* اجعل الانتقال دائماً على العنصر الأساسي */
+  transition: box-shadow 1s ease-in-out; 
+}
+
+/* الخطوة 2: قم بتعديل كلاس الهايلايت */
+.highlight {
+  box-shadow: 0 0 10px 3px rgba(59, 130, 246, 0.7);
+  border-radius: 6px;
+  /* تم حذف سطر transition من هنا */
+}
+
+/*==================================================================
+8. Print Styles
+==================================================================*/
+@media print {
+    body {
+        background-color: var(--bg-white) !important;
+        font-size: 10pt;
+    }
+
+    #sidebar,
+    .header, /* Hiding the entire top header stats */
+    #mobile-menu-btn,
+    #print-btn,
+    #sidebar-search,
+    .ai-search-wrapper {
+        display: none !important;
+    }
+
+    .main-layout, #content {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+    }
+
+    #content-container {
+        box-shadow: none !important;
+        border: none;
+        max-width: 100% !important;
+        padding: 0;
+    }
+
+    .policy-title {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 1.3rem;
+    }
+
+    .policy-table {
+        page-break-inside: auto;
+    }
+    
+    .policy-table tr {
+        page-break-inside: avoid;
+    }
+
+    .policy-section {
+        page-break-before: auto;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    @page {
+        margin: 1.5cm;
+    }
+}

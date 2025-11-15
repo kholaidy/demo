@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة السياسات والإجراءات - شركة أوتاد الفهد</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex flex-col h-screen">
+        <header class="bg-blue-900 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="img/logo_nobg.png" alt="شعار شركة أوتاد الفهد" class="h-12 ml-3">
+                    <h1 class="text-xl md:text-2xl font-bold">بوابة السياسات والإجراءات التشغيلية</h1>
+                </div>
+                <div class="flex items-center">
+                    <button id="print-btn" class="bg-green-700 hover:bg-green-600 text-white px-3 py-1 rounded-md ml-2">
+                    <i class="fas fa-print ml-1"></i> طباعة
+                    </button>
+                    <!-- الزر الجديد --> 
+                    <button id="print-all-btn" class="bg-green-700 hover:bg-green-600 text-white px-3 py-1 rounded-md ml-2"> 
+                        <i class="fas fa-copy ml-1"></i> طباعة الكل 
+                    </button>
+                    <button id="mobile-menu-btn" class="md:hidden text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <button id="edit-toggle-btn" class="bg-green-700 hover:bg-green-600 text-white px-3 py-1 rounded-md ml-2">
+                        <i class="fas fa-edit ml-1"></i> وضع التحرير
+</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-1 overflow-hidden">
+            <aside id="sidebar" class="bg-white w-64 shadow-md hidden md:block overflow-y-auto transition-all duration-300 transform">
+                <div class="p-4">
+                    <div class="relative">
+                        <input type="text" id="sidebar-search" placeholder="بحث في الأقسام..." 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-right pr-8">
+                        <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+    
+                <nav id="policy-tree" class="mt-4">
+                    <div class="tree-container" id="tree-root">
+        
+                    </div>
+                </nav>
+            </aside>
+
+            <main id="content" class="flex-1 p-6 overflow-y-auto bg-gray-50">
+                <div id="content-container" class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto">
+                    <div class="text-center py-12">
+                        <img src="img/logo-large.png" alt="شعار شركة أوتاد الفهد" class="h-32 mx-auto mb-6">
+                        <h2 class="text-3xl font-bold text-blue-900 mb-4">دليل السياسات والإجراءات الداخلية الموحدة</h2>
+                        <h3 class="text-xl text-blue-700 mb-6">شركة أوتاد الفهد للمقاولات العامة</h3>
+                        <p class="text-lg text-gray-600 mb-8">الرجاء اختيار قسم من القائمة الجانبية لعرض السياسات والإجراءات الخاصة به</p>
+
+                        <div class="ai-search-wrapper max-w-2xl mx-auto mb-8">
+                            <input type="text"
+                                   placeholder="اسأل المساعد الذكي مباشرة (مثال: ما هي سياسة الإجازات؟)"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-md text-right text-base ai-search-input"
+                                   spellcheck="false">
+                        </div>
+
+                        <div class="flex justify-center">
+                            <div class="bg-blue-50 p-6 rounded-lg border border-blue-200 text-right max-w-4xl">
+                                <h3 class="text-2xl font-bold text-blue-800 mb-4">مقدمة عامة</h3>
+                                <div class="text-gray-700 space-y-4 leading-relaxed">
+                                    <p>
+                                        يهدف هذا الدليل إلى توحيد السياسات والإجراءات الداخلية لكافة أقسام شركة مقاولات عامة متوسطة الحجم في المملكة العربية السعودية، بما يضمن المهنية والوضوح والتكامل.
+                                    </p>
+                                    <p>
+                                        تمت صياغة هذه السياسات وفق أفضل ممارسات قطاع المقاولات في المملكة وبما يتوافق مع أنظمة ولوائح المملكة (مثل نظام العمل السعودي ولوائح وزارة الموارد البشرية واللوائح التنفيذية للسلامة والصحة المهنية والمعايير الدولية للجودة كمعيار ISO 9001).
+                                    </p>
+                                    <div class="bg-white p-4 rounded-lg border border-blue-100 mt-4">
+                                        <h4 class="text-lg font-bold text-blue-800 mb-3">عناصر كل سياسة:</h4>
+                                        <ul class="list-disc list-inside text-gray-700 space-y-2 mr-4">
+                                            <li>المقدمة والغرض</li>
+                                            <li>نطاق التطبيق</li>
+                                            <li>المصطلحات والتعريفات (عند الحاجة)</li>
+                                            <li>المسؤوليات والصلاحيات</li>
+                                            <li>الإجراءات الأساسية</li>
+                                            <li>آليات المتابعة والرقابة الداخلية</li>
+                                            <li>المراجع التنظيمية</li>
+                                            <li>تاريخ الاعتماد والتحديث</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-green-50 p-4 rounded-lg border border-green-200 mt-4">
+                                        <h4 class="text-lg font-bold text-green-800 mb-3">أهداف البوابة:</h4>
+                                        <ul class="list-disc list-inside text-gray-700 space-y-2 mr-4">
+                                            <li>توحيد إجراءات العمل وضمان الالتزام بالمعايير المعتمدة</li>
+                                            <li>تسهيل الوصول إلى المعلومات والإجراءات لجميع الموظفين</li>
+                                            <li>تحسين كفاءة العمليات وتقليل الأخطاء</li>
+                                            <li>دعم عمليات التدريب والتأهيل للموظفين الجدد</li>
+                                            <li>ضمان الامثال للأنظمة واللوائح المحلية والدولية</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+<script src="js/data.js"></script>
+<script src="js/tree-builder.js"></script>
+<script src="js/content-loader.js"></script>
+<script src="js/main.js"></script>
+<script src="js/print-all.js"></script>
+<script src="js/edit-mode.js"></script>
+
+
+    <script defer src="/assets/awtad-ai-widget.min.js" 
+      data-endpoint="https://api.kholaidy.com/api/policies-ai" 
+      data-title="مساعد السياسات الذكي" 
+      data-welcome="ألصق نص السياسة هنا… أو اتركني أقرأ الصفحة." 
+      data-lang="ar"></script>
+</body>
+</html>
