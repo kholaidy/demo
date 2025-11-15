@@ -1,42 +1,36 @@
-﻿@echo off
+@echo off
 setlocal
 
-:: سكربت رفع جميع الملفات في نفس مجلد السكربت إلى مستودع GitHub demo
-
 echo.
-echo === رفع الملفات إلى مستودع GitHub: kholaidy/demo على فرع main ===
+echo === Push all files in this folder to GitHub repo kholaidy/demo (branch main) ===
 echo.
 
-:: الانتقال إلى نفس مسار ملف السكربت
+rem Go to the folder of this script
 cd /d "%~dp0"
 
-:: إذا لم يكن هذا مجلد Git فسنقوم بتهيئته وربطه بالمستودع الجديد
-IF NOT EXIST ".git" (
-    echo > تهيئة git لأول مرة في هذا المجلد...
+rem If this is not a git repo yet, initialize and connect to GitHub
+if not exist ".git" (
+    echo Initializing git repository in this folder...
     git init
-
-    :: جعل الفرع الأساسي اسمه main
     git branch -M main
-
-    :: ربط الريموت بالمستودع الجديد على GitHub
     git remote add origin https://github.com/kholaidy/demo.git
 )
 
-:: إضافة كل الملفات والتغييرات
+rem Add all files
 git add -A
 
-:: إنشاء commit جديد (إذا لم توجد تغييرات سيتجاوز البوش)
-git commit -m "تحديث تلقائي من السكربت" || (
+rem Commit (if there are changes)
+git commit -m "update from batch script" || (
     echo.
-    echo ⚠ لا توجد تغييرات جديدة لرفعها.
-    goto :end
+    echo No new changes to commit.
+    goto end
 )
 
-:: دفع التغييرات إلى فرع main
+rem Push to GitHub
 git push -u origin main
 
 echo.
-echo ✅ تم رفع كل الملفات في هذا المجلد إلى GitHub بنجاح.
+echo Done. All files pushed to GitHub.
 
 :end
 echo.
