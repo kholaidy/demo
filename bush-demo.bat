@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 setlocal
 
 :: سكربت رفع جميع الملفات في نفس مجلد السكربت إلى مستودع GitHub demo
